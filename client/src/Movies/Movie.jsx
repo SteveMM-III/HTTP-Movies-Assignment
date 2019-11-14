@@ -31,13 +31,17 @@ export default class Movie extends React.Component {
     addToSavedList(this.state.movie);
   };
 
+  clickHandler = () => {
+    this.props.history.push( `/update-movie/${ this.props.match.params.id }` );
+  }
+
   render() {
     if (!this.state.movie) {
       return <div>Loading movie information...</div>;
     }
 
     return (
-      <div className="save-wrapper">
+      <div className="save-wrapper" onClick={ this.clickHandler }>
         <MovieCard movie={this.state.movie} />
         <div className="save-button" onClick={this.saveMovie}>
           Save

@@ -17,6 +17,8 @@ const UpdateForm = props => {
     let value = e.target.value;
     if ( e.target.name === 'metascore' ) {
       value = parseInt( value , 10 );
+    } else if ( e.target.name ==='stars' ) {
+      value = value.split( ',' );
     }
     setMovie( {
       ...movie, [e.target.name]: value
@@ -38,7 +40,7 @@ const UpdateForm = props => {
       .put( `http://localhost:5000/api/movies/${ movie.id }`, movie )
       .then( res => {
         props.updateMovies( [ ...props.movies, res.data ] );
-        props.history.push( '/movies' );
+        props.history.push( '/' );
       } )
       .catch( err => console.error( 'Error: ', err ) );
   };
@@ -75,6 +77,15 @@ const UpdateForm = props => {
           onChange={changeHandler}
           placeholder="Metascore"
           value={ movie.metascore }
+        />
+        <div className="baseline" />
+
+        <input
+          type="text"
+          name="stars"
+          onChange={changeHandler}
+          placeholder="Star1, Star2, etc"
+          value={ movie.director }
         />
         <div className="baseline" />
 
