@@ -33,7 +33,17 @@ export default class Movie extends React.Component {
 
   clickHandler = () => {
     this.props.history.push( `/update-movie/${ this.props.match.params.id }` );
-  }
+  };
+
+  delete = e => {
+    axios
+      .delete( `http://localhost:5000/api/movies/${ this.props.match.params.id }` )
+      .then( res => {
+        this.props.setMovies( res.data );
+        this.props.history.push( '/' );
+      } )
+      .catch( err => console.error( 'Error: ', err ) );
+  };
 
   render() {
     if (!this.state.movie) {
@@ -41,12 +51,15 @@ export default class Movie extends React.Component {
     }
 
     return (
+      <>
       <div className="save-wrapper" onClick={ this.clickHandler }>
         <MovieCard movie={this.state.movie} />
         <div className="save-button" onClick={this.saveMovie}>
           Save
         </div>
       </div>
+      <button onClick={ this.delete }>Delete</button>
+      </>
     );
   }
 }
